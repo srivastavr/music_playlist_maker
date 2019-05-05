@@ -1,0 +1,54 @@
+﻿
+<div class="sidenav">
+    <span class="navhead">Songs List </span>
+        <a (click)="openLg(content,song.song_name)" href="#" *ngFor="let song of songs" style=" word-break: break-all;">
+                {{song.song_name}} -> {{song.song_data}} <i class="fa fa-plus" aria-hidden="true"></i>
+        </a>
+        <ng-template #content let-modal>
+                <div class="modal-header">
+                  <h4 class="modal-title">Add to playlist</h4>
+                  <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                        <form #form="ngForm" (ngSubmit)="onSubmit();modal.dismiss('Cross click')">
+                        <input type="checkbox" name="vehicle1" (change)="FieldsChange($event)"> New Playlist<br>
+                        <div> New PLay list Name &nbsp;
+                         <input *ngIf="checkbox" type="text" name="newplay" [(ngModel)]="new_play" />
+                        </div>
+                        <div  *ngIf="!checkbox" >
+                        select a playlist&nbsp;
+                        <select (change)="seclecterop($event)" style="width:40%">                   
+                                <option *ngFor="let v of playlists" [value]="v.id">{{v.plylist_name}}</option>
+                            </select>
+                            </div>
+                            </form>
+                </div>
+                <div class="modal-footer">
+                        <button [disabled]="loading" (click)="modal.close('Close click');onSubmit();" class="btn btn-primary">Add</button>
+                  <button type="button" class="btn btn-default" (click)="modal.close('Close click')">Close</button>
+               
+                </div>
+              </ng-template>
+        
+  </div>
+  <div id="main">
+
+  <h1>Hi {{currentUser.firstName}}!</h1> <p style="float:right"><a [routerLink]="['/login']">Logout</a></p>
+<!--    
+<h3>All registered users:</h3>
+<h3>All Songs</h3>
+<ul>
+    <li *ngFor="let song of songs">
+        {{song.song_name}} -> {{song.song_data}}
+    </li>
+</ul> -->
+<div>PlayList Selector</div>
+<select select style="width:50%" (change)="onChange($event)">
+    Play List Change
+    <option *ngFor="let v of playlists" [value]="v.id">{{v.plylist_name}}</option>
+</select>
+<app-player [options]="options" [playlist]="playlist"></app-player>
+
+</div>
